@@ -1,65 +1,155 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>D and Y</title>
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}.bg-video{
-  position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
-}
-.overlay{
-  position:fixed;inset:0;z-index:-1;background:rgba(0,0,0,0.25);
-}
-.center-wrap{
-  height:100vh;display:grid;place-items:center;padding:1.5rem;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-}
-.card{
-  max-width:900px;width:100%;padding:2rem 2.5rem;border-radius:18px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(8px) saturate(120%);
-  -webkit-backdrop-filter:blur(8px) saturate(120%);
-  box-shadow:0 8px 30px rgba(0,0,0,0.45);
-  color:#fff;text-align:center;border:1px solid rgba(255,255,255,0.08);
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    
+    .bg-video {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: -2;
+    }
+    .overlay {
+      position: fixed; inset: 0; z-index: -1;
+      background: rgba(0,0,0,0.25);
+    }
+    .center-wrap {
+      height: 100vh; display: grid; place-items: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial;
+    }
 
-h1{font-size:clamp(1.4rem,3.8vw,2.6rem);margin-bottom:0.5rem}
-p{font-size:clamp(0.95rem,1.4vw,1.15rem);line-height:1.45;opacity:0.95}
+    /* Initial Heart Section */
+    .heart-section {
+      text-align: center;
+      color: #fff;
+      animation: fadeIn 1s ease-in forwards;
+    }
+    .heart-text {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .heart {
+      position: relative;
+      width: 100px;
+      height: 90px;
+      margin: 0 auto;
+      background-color: red;
+      transform: rotate(-45deg);
+      cursor: pointer;
+      animation: heartbeat 1.3s infinite;
+    }
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 90px;
+      background-color: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -50px; left: 0; }
+    .heart::after { left: 50px; top: 0; }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1) rotate(-45deg); }
+      50% { transform: scale(1.1) rotate(-45deg); }
+    }
 
-/* Typewriter effect */
-.typewriter {
-  display:inline-block;
-  border-right:2px solid rgba(255,255,255,0.75);
-  white-space:nowrap;
-  overflow:hidden;
-  animation:typing 4s steps(40, end), blink 0.8s step-end infinite;
-}
-@keyframes typing {
-  from { width:0 }
-  to { width:100% }
-}
-@keyframes blink {
-  from, to { border-color:transparent }
-  50% { border-color:rgba(255,255,255,0.75) }
-}
+    /* Fade animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: scale(0.9); visibility: hidden; }
+    }
 
-@media (max-width:520px){.card{padding:1.25rem;border-radius:14px}}
+    /* Hidden card initially */
+    .card {
+      max-width: 900px;
+      width: 100%;
+      padding: 2rem 2.5rem;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+      color: #fff;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+      display: none;
+    }
 
+    h1, p { margin: 0.5rem 0; opacity: 0; white-space: nowrap; overflow: hidden; border-right: 2px solid transparent; }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: rgba(255,255,255,0.75); }
+    }
+
+    @media (max-width: 520px) {
+      .card { padding: 1.25rem; border-radius: 14px; }
+    }
   </style>
 </head>
 <body>
-  <video class="bg-video" autoplay muted loop playsinline poster="" aria-hidden="true">
+  <video class="bg-video" autoplay muted loop playsinline>
     <source src="gf.mp4" type="video/mp4" />
   </video>
-  <div class="overlay" aria-hidden="true"></div>
+  <div class="overlay"></div>
+
   <main class="center-wrap">
-    <section class="card" role="region" aria-label="Main message">
-      <h1 class="typewriter">Welcome to My Website</h1>
-      <p>This is sample text inside a translucent, rounded rectangle placed in the center of the page over a background video. Replace the text and the video source to fit your needs.</p>
+    <div class="heart-section" id="heartSection">
+      <div class="heart-text">Touch My Heart</div>
+      <div class="heart" id="heart"></div>
+    </div>
+
+    <section class="card" id="card">
+      <h1 id="heading">Welcome to My Website</h1>
+      <p id="para">This is sample text inside a translucent, rounded rectangle placed in the center of the page over a background video. Replace the text and the video source to fit your needs.</p>
     </section>
   </main>
+
+  <script>
+    const heart = document.getElementById('heart');
+    const heartSection = document.getElementById('heartSection');
+    const card = document.getElementById('card');
+    const heading = document.getElementById('heading');
+    const para = document.getElementById('para');
+
+    heart.addEventListener('click', () => {
+      heartSection.style.animation = 'fadeOut 0.6s forwards';
+      setTimeout(() => {
+        heartSection.style.display = 'none';
+        card.style.display = 'block';
+        typeWriter(heading, 40, () => {
+          typeWriter(para, 20);
+        });
+      }, 600);
+    });
+
+    function typeWriter(element, speed, callback) {
+      const text = element.textContent;
+      element.textContent = '';
+      element.style.opacity = 1;
+      element.style.borderRight = '2px solid rgba(255,255,255,0.75)';
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          element.style.borderRight = 'none';
+          if (callback) callback();
+        }
+      }
+      type();
+    }
+  </script>
 </body>
 </html>
