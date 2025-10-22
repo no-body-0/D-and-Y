@@ -1,0 +1,65 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Background Video with Typewriter Text</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}.bg-video{
+  position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+}
+.overlay{
+  position:fixed;inset:0;z-index:-1;background:rgba(0,0,0,0.25);
+}
+.center-wrap{
+  height:100vh;display:grid;place-items:center;padding:1.5rem;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+}
+.card{
+  max-width:900px;width:100%;padding:2rem 2.5rem;border-radius:18px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(8px) saturate(120%);
+  -webkit-backdrop-filter:blur(8px) saturate(120%);
+  box-shadow:0 8px 30px rgba(0,0,0,0.45);
+  color:#fff;text-align:center;border:1px solid rgba(255,255,255,0.08);
+}
+
+h1{font-size:clamp(1.4rem,3.8vw,2.6rem);margin-bottom:0.5rem}
+p{font-size:clamp(0.95rem,1.4vw,1.15rem);line-height:1.45;opacity:0.95}
+
+/* Typewriter effect */
+.typewriter {
+  display:inline-block;
+  border-right:2px solid rgba(255,255,255,0.75);
+  white-space:nowrap;
+  overflow:hidden;
+  animation:typing 4s steps(40, end), blink 0.8s step-end infinite;
+}
+@keyframes typing {
+  from { width:0 }
+  to { width:100% }
+}
+@keyframes blink {
+  from, to { border-color:transparent }
+  50% { border-color:rgba(255,255,255,0.75) }
+}
+
+@media (max-width:520px){.card{padding:1.25rem;border-radius:14px}}
+
+  </style>
+</head>
+<body>
+  <video class="bg-video" autoplay muted loop playsinline poster="" aria-hidden="true">
+    <source src="gf.mp4" type="video/mp4" />
+  </video>
+  <div class="overlay" aria-hidden="true"></div>
+  <main class="center-wrap">
+    <section class="card" role="region" aria-label="Main message">
+      <h1 class="typewriter">Welcome to My Website</h1>
+      <p>This is sample text inside a translucent, rounded rectangle placed in the center of the page over a background video. Replace the text and the video source to fit your needs.</p>
+    </section>
+  </main>
+</body>
+</html>
